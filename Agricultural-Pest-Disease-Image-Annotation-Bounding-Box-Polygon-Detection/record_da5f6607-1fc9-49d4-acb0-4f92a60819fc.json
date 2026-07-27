@@ -1,0 +1,17 @@
+{
+  "annotations": {
+    "shapes": [
+      {
+        "id": "492face6-42f7-473d-98a0-d48cbed1642b",
+        "type": "rectangle",
+        "rect": {
+          "x": 0.18941386620603015,
+          "y": 0.20654435198300283,
+          "w": 0.37578517587939697,
+          "h": 0.33638013456090654
+        }
+      }
+    ]
+  },
+  "source_image": "files/source_image/1ce35be184b946aeb8deabc0405e1bd9.png"
+}
