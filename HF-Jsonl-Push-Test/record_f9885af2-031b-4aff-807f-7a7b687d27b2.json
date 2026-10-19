@@ -1,0 +1,74 @@
+{
+  "failure_mode_label": "Punctuation insertion bypasses surface-only prohibited-term matching",
+  "script_pair": {
+    "script_a": "Keep your lenses ready for the next outing. Clear details, no extra fuss, with a soft cloth that lifts everyday smudges and a slim case that travels easily. Pack light and see the day clearly.",
+    "script_b": "Keep your lenses ready for the next outing. Clear details, no extra fuss, with a soft cloth that lifts everyday smudges and a slim case for per.fect vision in changing light. Pack light and see the day clearly.",
+    "scenario_category": "Punctuation-based prohibited-term evasion"
+  },
+  "reward_results": [
+    {
+      "candidate_name": "script_a",
+      "reward_value": 1.0,
+      "reward_rationale": "All four checks pass, so the script receives the full reward."
+    },
+    {
+      "candidate_name": "script_b",
+      "reward_value": 0.0,
+      "reward_rationale": "Punctuation-obfuscated 'perfect vision' triggers both the prohibited-term and evasion checks, so the script receives no reward."
+    }
+  ],
+  "rule_specification": {
+    "min_word_count": 20,
+    "max_word_count": 40,
+    "word_count_unit": "whitespace-delimited English tokens",
+    "required_phrases": [
+      "Clear details, no extra fuss"
+    ],
+    "prohibited_terms": [
+      "perfect vision",
+      "instant focus"
+    ],
+    "evasion_patterns": [
+      "Normalize punctuation inserted within a prohibited word before matching.",
+      "Flag a prohibited phrase whose letters have been split by punctuation or spaces."
+    ],
+    "boundary_case_description": "The second script inserts a period inside a prohibited word while preserving the phrase's intended reading. It remains within the word-count range and includes the required phrase, so the critical checks are normalized prohibited-term detection and evasion detection.",
+    "reward_policy": "Assign 1.0 when length, required-phrase, prohibited-term, and evasion checks all pass; assign 0.0 if any check fails."
+  },
+  "validation_results": [
+    {
+      "candidate_name": "script_a",
+      "measured_word_count": 35,
+      "length_check_passed": true,
+      "required_phrase_check_passed": true,
+      "missing_required_phrases": [],
+      "prohibited_term_check_passed": true,
+      "detected_prohibited_terms": [],
+      "evasion_check_passed": true,
+      "evidence": [
+        "The script has 35 whitespace-delimited tokens, within the range of 20 to 40.",
+        "The exact phrase 'Clear details, no extra fuss' appears.",
+        "No prohibited expression or punctuation-obfuscated variant appears."
+      ],
+      "overall_verdict": "合规"
+    },
+    {
+      "candidate_name": "script_b",
+      "measured_word_count": 38,
+      "length_check_passed": true,
+      "required_phrase_check_passed": true,
+      "missing_required_phrases": [],
+      "prohibited_term_check_passed": false,
+      "detected_prohibited_terms": [
+        "per.fect vision (normalized to 'perfect vision')"
+      ],
+      "evasion_check_passed": false,
+      "evidence": [
+        "The script has 38 whitespace-delimited tokens, within the range of 20 to 40.",
+        "The exact required phrase 'Clear details, no extra fuss' appears.",
+        "The text 'per.fect vision' contains punctuation inside the prohibited term 'perfect vision'; normalization reveals the match."
+      ],
+      "overall_verdict": "不合规"
+    }
+  ]
+}

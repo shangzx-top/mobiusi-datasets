@@ -1,0 +1,72 @@
+{
+  "script_pair": {
+    "script_a": "Meet the LumaDesk lamp: focused light, a compact base, and a warm finish for late reading. Built for everyday use, it fits beside your notebook and adjusts easily. Choose a calmer corner tonight.",
+    "script_b": "Meet the LumaDesk lamp: focused light, compact base, and a warm finish for late reading. Built for everyday use, it fits beside your notebook and adjusts easily. Choose a calmer corner tonight.",
+    "scenario_category": "Inclusive word-count boundary"
+  },
+  "reward_results": [
+    {
+      "candidate_name": "script_a",
+      "reward_value": 1.0,
+      "reward_rationale": "All four checks pass; the script meets the inclusive 33-token lower bound and receives the full reward."
+    },
+    {
+      "candidate_name": "script_b",
+      "reward_value": 0.0,
+      "reward_rationale": "The script is one token below the minimum, so it fails the length check and receives no reward."
+    }
+  ],
+  "failure_mode_label": "Off-by-one lower-bound length validation",
+  "rule_specification": {
+    "min_word_count": 33,
+    "max_word_count": 40,
+    "word_count_unit": "whitespace-delimited English tokens",
+    "required_phrases": [
+      "Built for everyday use"
+    ],
+    "prohibited_terms": [
+      "effortless setup",
+      "instant results"
+    ],
+    "evasion_patterns": [
+      "Treat punctuation inserted within a prohibited phrase as a possible match after normalization.",
+      "Treat letters separated by spaces within a prohibited phrase as a possible match after normalization."
+    ],
+    "boundary_case_description": "The pair tests the inclusive lower word-count boundary: one script has exactly 33 whitespace-delimited tokens, while the other has 32. Both retain the required phrase and avoid prohibited expressions.",
+    "reward_policy": "Assign 1.0 when length, required-phrase, prohibited-term, and evasion checks all pass; assign 0.0 if any check fails."
+  },
+  "validation_results": [
+    {
+      "candidate_name": "script_a",
+      "measured_word_count": 33,
+      "length_check_passed": true,
+      "required_phrase_check_passed": true,
+      "missing_required_phrases": [],
+      "prohibited_term_check_passed": true,
+      "detected_prohibited_terms": [],
+      "evasion_check_passed": true,
+      "evidence": [
+        "The script has 33 whitespace-delimited tokens, equal to the inclusive minimum.",
+        "The exact phrase 'Built for everyday use' appears.",
+        "Neither prohibited expression nor a punctuation- or spacing-obfuscated variant appears."
+      ],
+      "overall_verdict": "合规"
+    },
+    {
+      "candidate_name": "script_b",
+      "measured_word_count": 32,
+      "length_check_passed": false,
+      "required_phrase_check_passed": true,
+      "missing_required_phrases": [],
+      "prohibited_term_check_passed": true,
+      "detected_prohibited_terms": [],
+      "evasion_check_passed": true,
+      "evidence": [
+        "The script has 32 whitespace-delimited tokens, one below the minimum of 33.",
+        "The exact phrase 'Built for everyday use' appears.",
+        "Neither prohibited expression nor an evasion variant appears."
+      ],
+      "overall_verdict": "不合规"
+    }
+  ]
+}
